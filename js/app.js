@@ -1,57 +1,54 @@
-const main = document.querySelector('.main');
-const button = document.querySelector("button[id='reset']");
+let board = document.querySelector('.board')
+let color = "black";
 const slider = document.getElementById("myRange");
 const sliderValue = document.getElementById("sliderAmount");
 let isDragging = false;
+click = false;
+
+makeBoard(64);
 
 slider.addEventListener("mousemove", function() {
     sliderValue.innerHTML = `${this.value} * ${this.value}`;
   });
-slider.addEventListener("mouseup", function() {
-    main.innerHTML = "";
-    boardState(this.value);  
+
+  slider.addEventListener("mouseup", function() {
+    board.innerHTML = "";
+    makeBoard(this.value);  
   });
 
-let num = 64;
-boardState(num);
+  function makeBoard(size){
+    board.style.gridTemplateColumns = `repeat(${size}, 1fr)`
+    board.style.gridTemplateRows = `repeat(${size}, 1fr)`
 
-reset.addEventListener("click", function(){
-    main.innerHTML = "";
-    boardState(slider.value); 
-});
+    for(let i = 0; i < `${size}` ** 2; i++) {
+        let square =document.createElement('div');
+        square.addEventListener('mouseover', colorSquare)
+        square.addEventListener('mousedown', colorSquare)
+        square.style.backgroundColor = "white";
+        board.insertAdjacentElement("beforeend", square);
+    }}
 
-function boardState(num){         
-    for (i = 0; i < num; i++){
-        const piece = document.createElement('div');
-        piece.classList.add('content');
-        piece.classList.add(`${i + 1}`);
-        main.appendChild(piece);
-        piece.style.width = "500px";
-        piece.style.height = `${500 / num}px`;
-
-        for (j = 0; j < num; j++){
-            const subpiece = document.createElement('div');
-            subpiece.classList.add('subcontent');
-            piece.classList.add(`${j + 1}`);
-            piece.appendChild(subpiece);
-            subpiece.style.width = `${500 / num}px`;
-            subpiece.style.height = `${500 / num}px`;  
-            
-            subpiece.addEventListener("mousedown", function() {
-                subpiece.style.backgroundColor = "blue";
-                isDragging = true;
-            });
-            subpiece.addEventListener("mousemove", function() {
-                if (isDragging) {
-                    subpiece.style.backgroundColor = "blue";
-                }
-            }); 
-            subpiece.addEventListener("mouseup", function(){
-                isDragging = false;
-            });
-            } 
+    function colorSquare(){
+        if (click) {
+        this.style.backgroundColor = color;
         }
-}
+        if (color === "wild" && (click)) {
+            this.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+          }
+    }
 
+    document.addEventListener("mousedown", function() {
+        click = true;
+    });
+    document.addEventListener("mouseup", function() {
+        click = false;
+    });
 
+    function changeColor(choice){
+        color = choice;
+    }
 
+    function reset(){
+        board.innerHTML = "";
+        makeBoard(slider.value);  
+    }
