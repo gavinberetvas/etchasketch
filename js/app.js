@@ -25,7 +25,6 @@ function boardState(num){
         const piece = document.createElement('div');
         piece.classList.add('content');
         piece.classList.add(`${i + 1}`);
-        //piece.textContent = `${i}`;
         main.appendChild(piece);
         piece.style.width = "500px";
         piece.style.height = `${500 / num}px`;
@@ -34,7 +33,6 @@ function boardState(num){
             const subpiece = document.createElement('div');
             subpiece.classList.add('subcontent');
             piece.classList.add(`${j + 1}`);
-            //subpiece.textContent = ` ${j + 1}`;
             piece.appendChild(subpiece);
             subpiece.style.width = `${500 / num}px`;
             subpiece.style.height = `${500 / num}px`;  
