@@ -2,8 +2,9 @@ let board = document.querySelector('.board')
 let color = "black";
 const slider = document.getElementById("myRange");
 const sliderValue = document.getElementById("sliderAmount");
-click = false;
+let click = false;
 makeBoard(64);
+
 slider.addEventListener("mousemove", function() {
     sliderValue.innerHTML = `${this.value} * ${this.value}`;
   });
@@ -26,14 +27,16 @@ function makeBoard(size){
         
         square.addEventListener('mouseover', colorSquare)
         square.addEventListener('mousedown', colorSquare)
+        
         square.style.backgroundColor = "white";
         board.insertAdjacentElement("beforeend", square);
-        }}       
+        }}    
+
 function colorSquare(){
-    if (click) {
+    if (click || event.type === "mousedown") {
         this.style.backgroundColor = color;
     }
-    if (color === "wild" && (click)) {
+    if (color === "wild" && (click || event.type === "mousedown")) {
         this.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
     }
     }
